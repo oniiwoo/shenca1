@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>工作端</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>工作端控制台</h1>
+
+<h2>活動名稱</h2>
+<input id="eventName">
+
+<hr>
+
+<h2>目前叫號（即時預覽）</h2>
+<div class="big-number" id="current"></div>
+
+<button onclick="prev()">上一號</button>
+<button onclick="next()">下一號</button>
+<button onclick="recall()">重叫</button>
+
+<hr>
+
+<h2>叫號顏色（即時預覽）</h2>
+<input type="color" id="color">
+
+<hr>
+
+<h2>排隊人數表</h2>
+<div id="table"></div>
+
+<hr>
+
+<h2>結束活動</h2>
+<input id="endText" placeholder="結束文字">
+<button onclick="end()">結束活動</button>
+
+</div>
+
+</div>
+
+<script src="storage.js"></script>
+<script src="admin.js"></script>
+
+</body>
+</html>
