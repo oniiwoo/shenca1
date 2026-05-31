@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>顯示端</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1 id="title"></h1>
+
+<h2>目前叫號</h2>
+<div class="big-number" id="current"></div>
+
+<button onclick="openModal()">取號</button>
+
+<div id="modal" style="display:none">
+<h3>選擇人數</h3>
+<div id="btns"></div>
+</div>
+
+<h2>您的號碼</h2>
+<div id="my"></div>
+
+<div id="status"></div>
+
+<h2>等待人數</h2>
+<div id="waiting"></div>
+
+</div>
+
+</div>
+
+<script src="storage.js"></script>
+<script src="display.js"></script>
+
+</body>
+</html>
