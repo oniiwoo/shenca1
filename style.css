@@ -43,3 +43,42 @@ padding:4px 0;
 }
 
 hr{margin:20px 0;}
+/* 📱 手機優化 */
+@media (max-width: 768px){
+
+.container{
+padding:10px;
+}
+
+.card{
+padding:15px;
+border-radius:15px;
+}
+
+.big-number{
+font-size:50px;
+}
+
+button{
+width:100%;
+margin:5px 0;
+font-size:16px;
+}
+
+input{
+font-size:16px;
+}
+
+h1{
+font-size:22px;
+}
+
+h2{
+font-size:18px;
+}
+
+#table div{
+font-size:14px;
+}
+
+}
