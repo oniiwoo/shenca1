@@ -1,62 +1,174 @@
-let data=getData();
+let queueData = null;
 
-function fmt(n){
-return "A"+String(n).padStart(3,"0");
+function formatNumber(num){
+
+return "A" +
+String(num).padStart(3,"0");
+
 }
 
-function save(){
-saveData(data);
+db.ref("queue").on("value",(snapshot)=>{
+
+queueData = snapshot.val();
+
 render();
-}
 
-function next(){
-data.current++;
-save();
-}
-
-function prev(){
-if(data.current>1) data.current--;
-save();
-}
-
-function recall(){
-alert("請 "+fmt(data.current));
-}
+});
 
 function render(){
 
-// 活動名稱
-document.getElementById("eventName").value=data.eventName;
+if(!queueData) return;
 
-// 顏色
-document.getElementById("color").value=data.settings.color;
+document.getElementById("eventName").value =
+queueData.eventName || "";
 
-// ⭐ 即時預覽（你說不見的部分已修復）
-let c=document.getElementById("current");
-c.innerText=fmt(data.current);
-c.style.color=data.settings.color;
+document.getElementById("endMessage").value =
+queueData.endMessage || "";
 
-// 排隊表
-document.getElementById("table").innerHTML=
-data.groups.map(g=>
-`<div><b>${fmt(g.id)}</b> ｜ ${g.people}人</div>`
-).join("");
+document.getElementById("colorPicker").value =
+queueData.color || "#000000";
+
+const current =
+document.getElementById("currentPreview");
+
+current.innerText =
+formatNumber(queueData.current);
+
+current.style.color =
+queueData.color;
+
+let totalPeople = 0;
+
+let html = "";
+
+(queueData.groups || []).forEach(group=>{
+
+totalPeople += Number(group.people);
+
+html += `
+<div class="list-item">
+
+<div class="queue-number">
+${formatNumber(group.id)}
+</div>
+
+<div>
+${group.people} 人
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("waitingCount").innerText =
+totalPeople;
+
+document.getElementById("queueList").innerHTML =
+html;
+
 }
 
-document.getElementById("eventName").oninput=(e)=>{
-data.eventName=e.target.value;
-save();
-};
+document.getElementById("eventName")
+.addEventListener("input",(e)=>{
 
-document.getElementById("color").oninput=(e)=>{
-data.settings.color=e.target.value;
-save();
-};
+db.ref("queue/eventName")
+.set(e.target.value);
 
-function end(){
-data.ended=true;
-data.endText=document.getElementById("endText").value;
-save();
+});
+
+document.getElementById("endMessage")
+.addEventListener("input",(e)=>{
+
+db.ref("queue/endMessage")
+.set(e.target.value);
+
+});
+
+document.getElementById("colorPicker")
+.addEventListener("input",(e)=>{
+
+db.ref("queue/color")
+.set(e.target.value);
+
+});
+
+function nextNumber(){
+
+let next =
+queueData.current + 1;
+
+db.ref("queue/current").set(next);
+
 }
 
-render();
+function prevNumber(){
+
+let prev =
+Math.max(1,queueData.current - 1);
+
+db.ref("queue/current").set(prev);
+
+}
+
+function recallNumber(){
+
+alert(
+"重叫：" +
+formatNumber(queueData.current)
+);
+
+}
+
+function resetCurrent(){
+
+if(!confirm("確定重置叫號？"))
+return;
+
+db.ref("queue/current")
+.set(1);
+
+}
+
+function clearQueue(){
+
+if(!confirm("確定清空全部排隊資料？"))
+return;
+
+db.ref("queue/groups")
+.set([]);
+
+db.ref("queue/current")
+.set(1);
+
+db.ref("queue/lastNumber")
+.set(0);
+
+}
+
+function openQueue(){
+
+db.ref("queue/queueOpen")
+.set(true);
+
+db.ref("queue/activityEnded")
+.set(false);
+
+}
+
+function pauseQueue(){
+
+db.ref("queue/queueOpen")
+.set(false);
+
+}
+
+function endActivity(){
+
+if(!confirm("確定結束活動？"))
+return;
+
+db.ref("queue/activityEnded")
+.set(true);
+
+}
