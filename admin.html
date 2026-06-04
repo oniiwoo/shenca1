@@ -2,56 +2,142 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>工作端</title>
-<link rel="stylesheet" href="style.css">
-<head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>工作端</title>
+
 <link rel="stylesheet" href="style.css">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script src="firebase.js"></script>
 </head>
+
 <body>
 
 <div class="container">
 
 <div class="card">
 
-<h1>工作端控制台</h1>
+<div class="title">
+工作端
+</div>
 
-<h2>活動名稱</h2>
+<div class="subtitle">
+活動名稱
+</div>
+
 <input id="eventName">
 
-<hr>
+</div>
 
-<h2>目前叫號（即時預覽）</h2>
-<div class="big-number" id="current"></div>
+<div class="card">
 
-<button onclick="prev()">上一號</button>
-<button onclick="next()">下一號</button>
-<button onclick="recall()">重叫</button>
+<div class="subtitle">
+目前叫號
+</div>
 
-<hr>
+<div
+id="currentPreview"
+class="big-number">
+A001
+</div>
 
-<h2>叫號顏色（即時預覽）</h2>
-<input type="color" id="color">
+<br>
 
-<hr>
+<div class="subtitle">
+叫號顏色
+</div>
 
-<h2>排隊人數表</h2>
-<div id="table"></div>
+<input
+type="color"
+id="colorPicker">
 
-<hr>
+</div>
 
-<h2>結束活動</h2>
-<input id="endText" placeholder="結束文字">
-<button onclick="end()">結束活動</button>
+<div class="card">
+
+<button onclick="prevNumber()">
+上一號
+</button>
+
+<button onclick="nextNumber()">
+下一號
+</button>
+
+<button onclick="recallNumber()">
+重叫一次
+</button>
+
+<button onclick="resetCurrent()">
+重置叫號
+</button>
+
+</div>
+
+<div class="card">
+
+<button onclick="clearQueue()">
+清空排隊
+</button>
+
+</div>
+
+<div class="card">
+
+<button onclick="openQueue()">
+開放排隊
+</button>
+
+<button onclick="pauseQueue()">
+暫停排隊
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="subtitle">
+結束活動訊息
+</div>
+
+<input id="endMessage">
+
+<br><br>
+
+<button onclick="endActivity()">
+結束活動
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="subtitle">
+等待總人數
+</div>
+
+<div
+class="waiting"
+id="waitingCount">
+0
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="subtitle">
+排隊清單
+</div>
+
+<div id="queueList"></div>
 
 </div>
 
 </div>
 
-<script src="storage.js"></script>
 <script src="admin.js"></script>
 
 </body>
